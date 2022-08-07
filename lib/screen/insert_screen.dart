@@ -3,6 +3,7 @@ import 'package:a_fire_base_api/utils/tost.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../single_ton/single_ton.dart';
 import '../widget/custom_text_field.dart';
 
 class InsertScreen extends StatefulWidget {
@@ -20,8 +21,11 @@ class _InsertScreenState extends State<InsertScreen> {
   final TextEditingController rollController = TextEditingController();
 
   Future<void> sendUserInformation() async {
-    final data = FirebaseFirestore.instance.collection('User-Information');
-    await data.add(
+    Singleton singleton = Singleton();
+    final data = FirebaseFirestore.instance.collection("Log-in-User");
+    final userInfo = data.doc(singleton.userDoc).collection("User-Information");
+
+    await userInfo.add(
       UserInformation(
         lastname: lastNameController.text,
         name: nameController.text,

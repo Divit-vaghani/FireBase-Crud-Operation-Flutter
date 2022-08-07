@@ -1,4 +1,5 @@
 import 'package:a_fire_base_api/model/user_information_model.dart';
+import 'package:a_fire_base_api/single_ton/single_ton.dart';
 import 'package:a_fire_base_api/utils/tost.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +24,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
   final TextEditingController rollController = TextEditingController();
 
   Future<void> updateUserInformation(String id) async {
-    final data = FirebaseFirestore.instance.collection('User-Information');
-    await data.doc(id).update(
+    Singleton singleton = Singleton();
+    final data = FirebaseFirestore.instance.collection("Log-in-User");
+    final userInfo = data.doc(singleton.userDoc).collection("User-Information");
+
+    await userInfo.doc(id).update(
           UserInformation(
             lastname: lastNameController.text,
             name: nameController.text,
